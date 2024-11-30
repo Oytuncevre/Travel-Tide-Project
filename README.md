@@ -6,11 +6,9 @@ This project aims to deepen the understanding of customer behavior and preferenc
 
 ---
 
-## ✨ What’s Inside?
-This project brings together:
-- A detailed exploration of user demographics, behaviors, and spending patterns.
-- Data-driven segmentation using **K-Means Clustering** to uncover unique user groups.
-- Personalized engagement strategies crafted for each segment.
+## ✨ Tools Used For Project;
+- **SQL**: Used for data extraction, transformation, and aggregation to create customer segments.
+- **Tableau**: Utilized for visualizing the segmentation results and analyzing perk distribution across customer groups.
 
 Every step is rooted in data analysis, visualization, and actionable insights to meet real-world challenges.
 
