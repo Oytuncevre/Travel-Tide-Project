@@ -6,7 +6,7 @@ This project aims to deepen the understanding of customer behavior and preferenc
 
 ---
 
-## ✨ Tools Used For Project;
+# Tools Used For Project;
 - **SQL**: Used for data extraction, transformation, and aggregation to create customer segments.
 - **Tableau**: Utilized for visualizing the segmentation results and analyzing perk distribution across customer groups.
 
