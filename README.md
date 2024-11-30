@@ -1,6 +1,6 @@
 # TravelTide Project
 
-Welcome to the **TravelTide Project** a journey into understanding user behaviors and unlocking actionable insights. This project is designed to identify distinct customer segments and craft tailored strategies to boost engagement, loyalty, and overall user satisfaction.
+Welcome to the **TravelTide Project** an exploration into user behavior aimed at uncovering actionable insights. This initiative focuses on identifying unique customer segments and developing personalized strategies to enhance engagement, foster loyalty, and improve overall user satisfaction.
 
 ---
 
