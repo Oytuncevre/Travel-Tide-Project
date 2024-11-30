@@ -6,13 +6,13 @@ This project aims to deepen the understanding of customer behavior and preferenc
 
 ---
 
-# Tools Used For Project;
+# Tools Used For Project
 - **SQL**: Used for data extraction, transformation, and aggregation to create customer segments.
 - **Tableau**: Utilized for visualizing the segmentation results and analyzing perk distribution across customer groups.
 
 Every step is rooted in data analysis, visualization, and actionable insights to meet real-world challenges.
 
-## **Resources**
+# Resources**
 
 * **Tableau Dashboard:** https://public.tableau.com/app/profile/oytun.cevre/viz/TravelTideProjectFinal_17329676612960/Dashboard1?publish=yes
 * **Presentation:** 
