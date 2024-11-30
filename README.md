@@ -12,13 +12,4 @@ This project aims to deepen the understanding of customer behavior and preferenc
 
 Every step is rooted in data analysis, visualization, and actionable insights to meet real-world challenges.
 
----
-
-## 🚀 Let’s Get Started!  
-The first step begins with the foundation of this project: the **Data Folder**.  
-Click here for Data Folder: [Data Folder](./Data Folder/)
-
----
-
-
 Thank you for exploring this project, and I look forward to hearing your thoughts!
