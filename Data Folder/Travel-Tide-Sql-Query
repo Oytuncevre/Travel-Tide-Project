@@ -1,0 +1,148 @@
+WITH session_based AS (
+    SELECT 
+        s.session_id,
+        s.user_id,
+        s.trip_id,
+        s.session_start,
+        s.session_end,
+        s.page_clicks,
+        s.flight_discount,
+        s.flight_discount_amount,
+        s.hotel_discount,
+        s.hotel_discount_amount,
+        s.flight_booked,
+        s.hotel_booked,
+        s.cancellation,
+        EXTRACT(EPOCH FROM (s.session_end - s.session_start)) AS session_duration,
+        f.origin_airport,
+        f.destination,
+        f.destination_airport,
+        f.seats,
+        f.return_flight_booked,
+        f.departure_time,
+        f.return_time,
+        f.checked_bags,
+        f.trip_airline,
+        f.destination_airport_lat,
+        f.destination_airport_lon,
+        f.base_fare_usd,
+        h.hotel_name,
+        CASE WHEN h.nights < 0 THEN 1 ELSE h.nights END AS nights,
+        h.rooms,
+        h.check_in_time,
+        h.check_out_time,
+        h.hotel_per_room_usd AS hotel_price_per_room_night_usd,
+        u.home_airport_lat,
+        u.home_airport_lon
+    FROM sessions s
+    LEFT JOIN users u ON s.user_id = u.user_id
+    LEFT JOIN flights f ON s.trip_id = f.trip_id
+    LEFT JOIN hotels h ON s.trip_id = h.trip_id
+    WHERE s.user_id IN (
+        SELECT user_id
+        FROM sessions
+        WHERE session_start > '2023-01-04'
+        GROUP BY user_id
+        HAVING COUNT(*) > 7
+    )
+), 
+session_user_based AS (
+    SELECT 
+        user_id,
+        SUM(page_clicks) AS num_clicks,
+        COUNT(DISTINCT session_id) AS num_sessions,
+        AVG(session_duration) AS avg_session_duration
+    FROM session_based
+    GROUP BY user_id
+),
+trip_based AS (
+    SELECT 
+        user_id,
+        COUNT(trip_id) AS total_trips,
+        SUM(CASE 
+            WHEN flight_booked AND return_flight_booked THEN 2
+            WHEN flight_booked THEN 1
+            ELSE 0
+        END) AS total_flights,
+        SUM((hotel_price_per_room_night_usd * nights * rooms) * (1 - COALESCE(hotel_discount_amount, 0))) AS total_hotel_spend,
+        AVG(EXTRACT(DAY FROM departure_time - session_end)) AS avg_time_before_trip,
+        AVG(haversine_distance(home_airport_lat, home_airport_lon, destination_airport_lat, destination_airport_lon)) AS avg_km_flown,
+        AVG(nights) AS avg_stay_duration_day,
+        AVG(checked_bags) AS avg_checked_bags,
+        AVG(seats) AS avg_flight_seats
+    FROM session_based
+    GROUP BY user_id
+),
+percentiles AS (
+    SELECT
+        PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY total_trips) AS p75_total_trips,
+        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY total_hotel_spend) AS p50_total_hotel_spend
+    FROM trip_based
+),
+main_q AS (
+    SELECT 
+        sub.*,
+        EXTRACT(YEAR FROM age(now(), u.birthdate)) AS age,
+        CASE 
+            WHEN EXTRACT(YEAR FROM age(now(), u.birthdate)) BETWEEN 16 AND 25 THEN '16-25'
+            WHEN EXTRACT(YEAR FROM age(now(), u.birthdate)) BETWEEN 26 AND 35 THEN '26-35'
+            WHEN EXTRACT(YEAR FROM age(now(), u.birthdate)) BETWEEN 36 AND 45 THEN '36-45'
+            WHEN EXTRACT(YEAR FROM age(now(), u.birthdate)) BETWEEN 46 AND 55 THEN '46-55'
+            WHEN EXTRACT(YEAR FROM age(now(), u.birthdate)) BETWEEN 56 AND 65 THEN '56-65'
+            ELSE '65+'
+        END AS age_group,
+        u.gender,
+        u.married,
+        u.has_children,
+        u.home_country,
+        u.home_city,
+        EXTRACT(YEAR FROM age(now(), u.sign_up_date)) AS time_spent,
+        t.total_trips,
+        t.total_flights,
+        t.total_hotel_spend,
+        t.avg_km_flown,
+        t.avg_stay_duration_day,
+        t.avg_checked_bags,
+        t.avg_flight_seats,
+        CASE
+            WHEN u.married IS TRUE THEN 'Married'
+            ELSE 'Non-Married'
+        END AS marital_status,
+        CASE
+            WHEN u.gender = 'F' THEN 'Female'
+            ELSE 'Male'
+        END AS gender_status,
+        CASE
+            WHEN u.has_children IS FALSE THEN 'No'
+            ELSE 'Yes'
+        END AS has_children_status
+    FROM users u
+    LEFT JOIN session_user_based AS sub ON sub.user_id = u.user_id
+    JOIN trip_based t ON sub.user_id = t.user_id
+),
+customer_groups AS (
+    SELECT 
+        *,
+        CASE
+            WHEN total_trips > (SELECT p75_total_trips FROM percentiles) THEN 'Frequent Traveler'
+            WHEN avg_flight_seats > 1 THEN 'Groups'
+            WHEN has_children IS TRUE THEN 'Family'
+            WHEN has_children IS FALSE AND married IS TRUE THEN 'Couple'
+            WHEN avg_stay_duration_day < 3 AND avg_checked_bags <= 1 THEN 'Business'
+            WHEN total_hotel_spend >= (SELECT p50_total_hotel_spend FROM percentiles) THEN 'Solo'
+            ELSE 'Other'
+        END AS customer_group
+    FROM main_q
+)
+SELECT 
+    *,
+    CASE
+        WHEN customer_group = 'Family' THEN 'Exclusive Discounts'
+        WHEN customer_group = 'Groups' THEN 'No Cancellation Fees'
+        WHEN customer_group = 'Business' THEN '1 Night Free Hotel with Flight'
+        WHEN customer_group = 'Solo' THEN 'Free Hotel Meal'
+        WHEN customer_group = 'Couple' THEN 'Free Checked Bag'
+        WHEN customer_group = 'Frequent Traveler' THEN 'Priority Boarding'
+        ELSE '10% Discount for First Booking'
+    END AS preferred_perk
+FROM customer_groups;
