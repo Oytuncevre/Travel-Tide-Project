@@ -12,4 +12,4 @@ This project aims to deepen the understanding of customer behavior and preferenc
 
 Every step is rooted in data analysis, visualization, and actionable insights to meet real-world challenges.
 
-Thank you for taking the time to explore this project—I look forward to your feedback and insights!
+Thank you for taking the time to explore this project, I look forward to your feedback and insights!
