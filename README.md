@@ -15,6 +15,6 @@ Every step is rooted in data analysis, visualization, and actionable insights to
 # Resources
 
 * **Tableau Dashboard:** https://public.tableau.com/app/profile/oytun.cevre/viz/TravelTideProjectFinal_17329676612960/Dashboard1?publish=yes
-* **Presentation:** 
+* **Presentation:** https://www.loom.com/share/06b2af55207b470f9c8765b694e1e3bf?sid=35d01b94-3a9e-4774-a929-d5560ad1ff09
 
 Thank you for taking the time to explore this project, I look forward to your feedback and insights!
