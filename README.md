@@ -14,7 +14,7 @@ Every step is rooted in data analysis, visualization, and actionable insights to
 
 ## **Resources**
 
-* **Tableau Dashboard:** https://public.tableau.com/app/profile/suraya.kaniz.sumona/viz/TravelTideCustomerSegmentationAnalysis/CustomerSegmentAnalysis
-* **Presentation:** https://docs.google.com/presentation/d/1Xx3m4LMgy8qiPwbm9xz62v-N7IcSTLzp_XmVoQfz-5M/edit#slide=id.gcb9a0b074_1_0
+* **Tableau Dashboard:** https://public.tableau.com/app/profile/oytun.cevre/viz/TravelTideProjectFinal_17329676612960/Dashboard1?publish=yes
+* **Presentation:** 
 
 Thank you for taking the time to explore this project, I look forward to your feedback and insights!
