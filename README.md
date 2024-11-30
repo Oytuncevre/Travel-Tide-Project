@@ -1,6 +1,8 @@
 # TravelTide Project
 
-Welcome to the **TravelTide Project** an exploration into user behavior aimed at uncovering actionable insights. This initiative focuses on identifying unique customer segments and developing personalized strategies to enhance engagement, foster loyalty, and improve overall user satisfaction.
+TravelTide, a forward-thinking e-booking startup, is carving its niche in the online travel market with a mission to develop a tailored rewards program that encourages customer loyalty.
+
+This project aims to deepen the understanding of customer behavior and preferences on the TravelTide platform by segmenting users based on their activities and assigning customized perks to boost engagement and satisfaction.
 
 ---
 
