@@ -16,7 +16,7 @@ Every step is rooted in data analysis, visualization, and actionable insights to
 
 ## 🚀 Let’s Get Started!  
 The first step begins with the foundation of this project: the **Data Folder**.  
-Click here to dive in: [Data Folder](./Data/)
+Click here to dive in: [Data Folder](./Data Folder/)
 
 ---
 
