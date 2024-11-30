@@ -1,4 +1,4 @@
-# TravelTide Segmentation Project
+# TravelTide Project
 
 Welcome to the **TravelTide Segmentation Project**—a journey into understanding user behaviors and unlocking actionable insights. This project is designed to identify distinct customer segments and craft tailored strategies to boost engagement, loyalty, and overall user satisfaction.
 
